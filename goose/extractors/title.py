@@ -77,6 +77,12 @@ class TitleExtractor(BaseExtractor):
         """
         title = ''
 
+        title_element = self.parser.getElementByClass(self.article.doc, klass='entry-title')
+        if title_element is not None:
+            title = self.parser.getText(title_element)
+            if len(title) > 0:
+                return self.clean_title(title)
+
         # rely on opengraph in case we have the data
         if "title" in self.article.opengraph.keys():
             title = self.article.opengraph['title']
