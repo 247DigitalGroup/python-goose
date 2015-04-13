@@ -47,7 +47,8 @@ class DocumentCleaner(object):
         "|welcome_form|contentTools2|the_answers"
         "|communitypromo|runaroundLeft|subscribe|vcard|articleheadings"
         "|date|^print$|popup|author-dropdown|tools|socialtools|byline"
-        "|konafilter|KonaFilter|breadcrumbs|^fn$|wp-caption-text"
+        # "|konafilter|KonaFilter|breadcrumbs|^fn$|wp-caption-text"
+        "|breadcrumbs|^fn$|wp-caption-text"
         "|legende|ajoutVideo|timestamp|js_replies"
         )
         self.regexp_namespace = "http://exslt.org/regular-expressions"
