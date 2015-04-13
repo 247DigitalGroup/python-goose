@@ -166,7 +166,7 @@ class ImageExtractor(BaseExtractor):
         initial_area = float(0.0)
         total_score = float(0.0)
         cnt = float(1.0)
-        MIN_WIDTH = 50
+        MIN_WIDTH = 150
         for image in images[:30]:
             src = self.parser.getAttribute(image, attr='src')
             src = self.build_image_path(src)
