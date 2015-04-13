@@ -349,6 +349,7 @@ class ContentExtractor(BaseExtractor):
         return True
 
     def post_cleanup(self):
+        print "post_cleanup"
         """\
         remove any divs that looks like non-content,
         clusters of links, or paras with no gusto
