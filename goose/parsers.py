@@ -79,18 +79,13 @@ class Parser(object):
         NS = "http://exslt.org/regular-expressions"
         # selector = tag or '*'
         selector = 'descendant-or-self::%s' % (tag or '*')
-        # print "selector", selector
         if attr and value:
             selector = '%s[re:test(@%s, "%s", "i")]' % (selector, attr, value)
         elems = node.xpath(selector, namespaces={"re": NS})
-        # if tag == 'img':
-        #     print "before remove: img elems", elems
         # remove the root node
         # if we have a selection tag
         if node in elems and (tag or childs):
             elems.remove(node)
-        # if tag == 'img':
-        #     print "img elems", elems
         return elems
 
     @classmethod

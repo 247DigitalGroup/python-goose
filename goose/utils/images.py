@@ -119,6 +119,5 @@ class ImageUtils(object):
             f = urllib2.urlopen(req)
             data = f.read()
             return data
-        except Exception, e:
-            print e
+        except Exception:
             return None

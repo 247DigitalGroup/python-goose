@@ -53,8 +53,6 @@ class ImageExtractor(BaseExtractor):
 
         self.custom_site_mapping = {}
 
-        # self.custom_site_mapping['futurity.org'] = 'attachment-single|wp-post-image'
-
         self.load_customesite_mapping()
 
         # What's the minimum bytes for an image we'd accept is
@@ -115,7 +113,6 @@ class ImageExtractor(BaseExtractor):
            and possibly things like color density
         """
         good_images = self.get_image_candidates(node)
-        print "good_images", good_images
 
         if good_images:
             scored_images = self.fetch_images(good_images, parent_depth_level)
@@ -145,12 +142,10 @@ class ImageExtractor(BaseExtractor):
         else:
             sibling_node = self.parser.previousSibling(node)
             if sibling_node is not None:
-                print "sibling_node", sibling_node
                 return DepthTraversal(sibling_node, parent_depth, sibling_depth + 1)
             elif node is not None:
                 parent = self.parser.getParent(node)
                 if parent is not None:
-                    print "parent", parent
                     return DepthTraversal(parent, parent_depth + 1, 0)
         return None
 
@@ -240,14 +235,7 @@ class ImageExtractor(BaseExtractor):
         return False
 
     def get_node_images(self, node):
-        print "node"
-        print node.attrib
-        if 'id' in node.attrib and node.attrib['id'] == 'content':
-            from lxml.etree import tostring
-            print tostring(node)
         images = self.parser.getElementsByTag(node, tag='img')
-        print "node images"
-        print images
         if images is not None and len(images) < 1:
             return None
         return images
@@ -284,10 +272,8 @@ class ImageExtractor(BaseExtractor):
         images = self.get_node_images(node)
         if images:
             filtered_images = self.filter_bad_names(images)
-            print "filtered_images", filtered_images
         if filtered_images:
             good_images = self.get_images_bytesize_match(filtered_images)
-            print "good_images", good_images
         return good_images
 
     def get_images_bytesize_match(self, images):
@@ -304,10 +290,8 @@ class ImageExtractor(BaseExtractor):
             src = self.parser.getAttribute(image, attr='src')
             src = self.build_image_path(src)
             local_image = self.get_local_image(src)
-            print src
             if local_image:
                 bytes = local_image.bytes
-                print bytes
                 if (bytes == 0 or bytes > self.images_min_bytes) \
                         and bytes < MAX_BYTES_SIZE:
                     good_images.append(image)
