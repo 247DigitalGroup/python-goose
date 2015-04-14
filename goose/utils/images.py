@@ -114,10 +114,17 @@ class ImageUtils(object):
 
     @classmethod
     def fetch(self, http_client, src):
+        user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2)"\
+                                " AppleWebKit/534.52.7 (KHTML, like Gecko) "\
+                                "Version/5.1.2 Safari/534.52.7"
+        headers = {'User-agent': user_agent}
+        if isinstance(src, unicode):
+            src = src.encode('utf-8')
         try:
-            req = urllib2.Request(src)
+            req = urllib2.Request(src, headers=headers)
             f = urllib2.urlopen(req)
             data = f.read()
             return data
-        except Exception:
+        except Exception, e:
+            print e
             return None

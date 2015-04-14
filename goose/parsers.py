@@ -73,6 +73,14 @@ class Parser(object):
         if elems:
             return elems[0]
         return None
+ 
+    @classmethod
+    def getElementByClass(self, node, klass):
+        selector = '//h1[contains(@class, "%s")]' % klass
+        elems = node.xpath(selector)
+        if elems:
+            return elems[0]
+        return None
 
     @classmethod
     def getElementsByTag(self, node, tag=None, attr=None, value=None, childs=False):
