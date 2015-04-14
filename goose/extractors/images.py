@@ -213,7 +213,7 @@ class ImageExtractor(BaseExtractor):
         total_score = float(0.0)
         cnt = float(1.0)
         MIN_WIDTH = 150
-        for image in images[:30]:
+        for image in images[:10]:
             src = self.parser.getAttribute(image, attr='src')
             src = self.build_image_path(src)
             local_image = self.get_local_image(src)
@@ -331,7 +331,7 @@ class ImageExtractor(BaseExtractor):
         MAX_BYTES_SIZE = 15728640
         good_images = []
         for image in images:
-            if cnt > 30:
+            if cnt > 10:
                 return good_images
             src = self.parser.getAttribute(image, attr='src')
             src = self.build_image_path(src)
