@@ -41,7 +41,7 @@ class Configuration(object):
         # What's the minimum bytes for an image we'd accept is,
         # alot of times we want to filter out the author's little images
         # in the beginning of the article
-        self.images_min_bytes = 4500
+        self.images_min_bytes = 5000
 
         # set this guy to false if you don't care about getting images,
         # otherwise you can either use the default
@@ -80,7 +80,7 @@ class Configuration(object):
         # debug mode
         # enable this to have additional debugging information
         # sent to stdout
-        self.debug = True
+        self.debug = False
 
         # TODO
         self.extract_publishdate = None

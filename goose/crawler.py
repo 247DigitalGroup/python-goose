@@ -85,16 +85,16 @@ class Crawler(object):
         self.tags_extractor = self.get_tags_extractor()
 
         # authors extractor
-        self.authors_extractor = self.get_authors_extractor()
+        # self.authors_extractor = self.get_authors_extractor()
 
         # tweets extractor
-        self.tweets_extractor = self.get_tweets_extractor()
+        # self.tweets_extractor = self.get_tweets_extractor()
 
         # links extractor
-        self.links_extractor = self.get_links_extractor()
+        # self.links_extractor = self.get_links_extractor()
 
         # video extractor
-        self.video_extractor = self.get_video_extractor()
+        # self.video_extractor = self.get_video_extractor()
 
         # title extractor
         self.title_extractor = self.get_title_extractor()
@@ -138,17 +138,17 @@ class Crawler(object):
         # meta
         metas = self.metas_extractor.extract()
         self.article.meta_lang = metas['lang']
-        self.article.meta_favicon = metas['favicon']
-        self.article.meta_description = metas['description']
-        self.article.meta_keywords = metas['keywords']
+        # self.article.meta_favicon = metas['favicon']
+        # self.article.meta_description = metas['description']
+        # self.article.meta_keywords = metas['keywords']
         self.article.canonical_link = metas['canonical']
         self.article.domain = metas['domain']
 
         # tags
-        self.article.tags = self.tags_extractor.extract()
+        # self.article.tags = self.tags_extractor.extract()
 
         # authors
-        self.article.authors = self.authors_extractor.extract()
+        # self.article.authors = self.authors_extractor.extract()
 
         # title
         self.article.title = self.title_extractor.extract()
@@ -171,13 +171,13 @@ class Crawler(object):
         if self.article.top_node is not None:
 
             # article links
-            self.article.links = self.links_extractor.extract()
+            # self.article.links = self.links_extractor.extract()
 
             # tweets
-            self.article.tweets = self.tweets_extractor.extract()
+            # self.article.tweets = self.tweets_extractor.extract()
 
             # video handling
-            self.video_extractor.get_videos()
+            # self.video_extractor.get_videos()
 
             # image handling
             if self.config.enable_image_fetching:

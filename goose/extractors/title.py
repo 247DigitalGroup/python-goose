@@ -35,6 +35,9 @@ class TitleExtractor(BaseExtractor):
         in this case try to get rid of site name
         and use TITLE_SPLITTERS to reformat title
         """
+
+        return title
+
         # check if we have the site name in opengraph data
         if "site_name" in self.article.opengraph.keys():
             site_name = self.article.opengraph['site_name']

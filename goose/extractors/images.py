@@ -285,7 +285,7 @@ class ImageExtractor(BaseExtractor):
         MAX_BYTES_SIZE = 15728640
         good_images = []
         for image in images:
-            if cnt > 30:
+            if cnt > 15:
                 return good_images
             src = self.parser.getAttribute(image, attr='src')
             src = self.build_image_path(src)
