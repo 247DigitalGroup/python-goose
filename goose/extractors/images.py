@@ -73,12 +73,12 @@ class ImageExtractor(BaseExtractor):
             "|mediaplex.com|adsatt|view.atdmt"
         )
 
-    def get_best_image(self, doc, topNode):
+    def get_best_image(self, doc, topNode, articleTitle):
         image = self.check_known_elements()
         if image:
             return image
 
-        image = self.check_large_images(topNode, 0, 0)
+        image = self.check_large_images(topNode, 0, 0, articleTitle)
         if image:
             return image
 
@@ -98,7 +98,33 @@ class ImageExtractor(BaseExtractor):
         if image:
             return image
 
-    def check_large_images(self, node, parent_depth_level, sibling_depth_level):
+    def similar_to_article_title(self, good_image, articleTitle):
+        image_src = good_image.attrib['src']
+        image_title = None
+        pos = image_src.rfind('/')
+
+        # normalize image src
+        # remove path
+        image_title = image_src[pos+1:]
+        # remove image extension
+        image_title = re.sub(r'\..+','',image_title)
+        image_words = re.split('-|_', image_title.lower())
+
+        # normalize article title
+        cleaned_article_title = re.sub(r'\|.+','',articleTitle)
+        cleaned_article_title = cleaned_article_title.replace('-',' ').strip()
+        cleaned_article_title = re.sub(r',|\.|\?|\"|;|\'', "", cleaned_article_title)
+        cleaned_article_title = cleaned_article_title.lower()
+        article_title_words = cleaned_article_title.split(' ')
+
+        avg_len = (len(image_words) + len(article_title_words))/2
+        cnt = 0
+        for word in image_words:
+            if word in article_title_words:
+                cnt += 1
+        return 1.0* cnt / avg_len > 0.7
+        
+    def check_large_images(self, node, parent_depth_level, sibling_depth_level, articleTitle):
         """\
         although slow the best way to determine the best image is to download
         them and check the actual dimensions of the image when on disk
@@ -115,6 +141,17 @@ class ImageExtractor(BaseExtractor):
         good_images = self.get_image_candidates(node)
 
         if good_images:
+            # title-based
+            for good_image in good_images:
+                if self.similar_to_article_title(good_image, articleTitle):
+                    main_image = Image()
+                    # main_image.width = good_image.width
+                    # main_image.height = good_image.height
+                    main_image.src = good_image.attrib['src']
+                    main_image.extraction_type = "title-based"
+                    return main_image
+
+            # bigimage
             scored_images = self.fetch_images(good_images, parent_depth_level)
             if scored_images:
                 highscore_image = sorted(scored_images.items(),
@@ -131,7 +168,7 @@ class ImageExtractor(BaseExtractor):
         depth_obj = self.get_depth_level(node, parent_depth_level, sibling_depth_level)
         if depth_obj:
             return self.check_large_images(depth_obj.node,
-                            depth_obj.parent_depth, depth_obj.sibling_depth)
+                            depth_obj.parent_depth, depth_obj.sibling_depth, articleTitle)
 
         return None
 
@@ -166,8 +203,8 @@ class ImageExtractor(BaseExtractor):
         initial_area = float(0.0)
         total_score = float(0.0)
         cnt = float(1.0)
-        MIN_WIDTH = 50
-        for image in images[:30]:
+        MIN_WIDTH = 150
+        for image in images[:10]:
             src = self.parser.getAttribute(image, attr='src')
             src = self.build_image_path(src)
             local_image = self.get_local_image(src)
@@ -285,7 +322,7 @@ class ImageExtractor(BaseExtractor):
         MAX_BYTES_SIZE = 15728640
         good_images = []
         for image in images:
-            if cnt > 15:
+            if cnt > 10:
                 return good_images
             src = self.parser.getAttribute(image, attr='src')
             src = self.build_image_path(src)
