@@ -31,6 +31,12 @@ KNOWN_ARTICLE_CONTENT_TAGS = [
     {'tag': 'article'},
 ]
 
+CUSTOM_SITE_MAPPING = [
+    {
+        'domain': 'trendsread.com',
+        'path': {'tag': 'div', 'attr': 'class', 'value':'article'}
+    }
+]
 
 class ContentExtractor(BaseExtractor):
 
@@ -47,6 +53,14 @@ class ContentExtractor(BaseExtractor):
         return self.config.target_language
 
     def get_known_article_tags(self):
+        for mapping in CUSTOM_SITE_MAPPING:
+            if mapping['domain'] == self.article.domain:
+                nodes = self.parser.getElementsByTag(
+                            self.article.doc,
+                            **mapping['path'])
+                if len(nodes):
+                    return nodes[0]    
+
         for item in KNOWN_ARTICLE_CONTENT_TAGS:
             nodes = self.parser.getElementsByTag(
                             self.article.doc,

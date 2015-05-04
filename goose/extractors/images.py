@@ -110,8 +110,6 @@ class ImageExtractor(BaseExtractor):
         image_title = re.sub(r'\..+','',image_title)
         image_words = re.split('-|_', image_title.lower())
 
-        print image_words
-
         # normalize article title
         cleaned_article_title = re.sub(r'\|.+','',articleTitle)
         cleaned_article_title = cleaned_article_title.replace('-',' ').strip()
@@ -119,15 +117,11 @@ class ImageExtractor(BaseExtractor):
         cleaned_article_title = cleaned_article_title.lower()
         article_title_words = cleaned_article_title.split(' ')
 
-        print article_title_words
-
         avg_len = (len(image_words) + len(article_title_words))/2
         cnt = 0
         for word in image_words:
             if word in article_title_words:
                 cnt += 1
-        print cnt
-        print avg_len
         return 1.0* cnt / avg_len > 0.7
         
     def check_large_images(self, node, parent_depth_level, sibling_depth_level, articleTitle):
@@ -145,9 +139,6 @@ class ImageExtractor(BaseExtractor):
            and possibly things like color density
         """
         good_images = self.get_image_candidates(node)
-        print "good_images"
-        print good_images
-
 
         if good_images:
             # title-based
