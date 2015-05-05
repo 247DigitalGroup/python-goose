@@ -26,6 +26,7 @@ from goose.extractors import BaseExtractor
 
 
 KNOWN_ARTICLE_CONTENT_TAGS = [
+    {'tag': 'div', 'attr': 'class', 'value':'article'},
     {'attr': 'itemprop', 'value': 'articleBody'},
     {'attr': 'class', 'value': 'post-content'},
     {'tag': 'article'},
