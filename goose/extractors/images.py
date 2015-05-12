@@ -56,7 +56,7 @@ class ImageExtractor(BaseExtractor):
         self.load_customesite_mapping()
 
         # What's the minimum bytes for an image we'd accept is
-        self.images_min_bytes = 4000
+        self.images_min_bytes = 5000
 
         # the webpage url that we're extracting content from
         self.target_url = article.final_url
@@ -74,17 +74,17 @@ class ImageExtractor(BaseExtractor):
         )
 
     def get_best_image(self, doc, topNode, articleTitle):
-        # image = self.check_known_elements()
-        # if image:
-        #     return image
+        image = self.check_known_elements()
+        if image:
+            return image
 
         image = self.check_large_images(topNode, 0, 0, articleTitle)
         if image:
             return image
 
-        # image = self.check_meta_tag()
-        # if image:
-        #     return image
+        image = self.check_meta_tag()
+        if image:
+            return image
         return Image()
 
     def check_meta_tag(self):
