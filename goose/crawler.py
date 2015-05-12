@@ -82,7 +82,7 @@ class Crawler(object):
         self.opengraph_extractor = self.get_opengraph_extractor()
 
         # tags extractor
-        self.tags_extractor = self.get_tags_extractor()
+        # self.tags_extractor = self.get_tags_extractor()
 
         # authors extractor
         # self.authors_extractor = self.get_authors_extractor()
@@ -99,8 +99,6 @@ class Crawler(object):
         # title extractor
         self.title_extractor = self.get_title_extractor()
 
-        # image extrator
-        self.image_extractor = self.get_image_extractor()
 
         # html fetcher
         self.htmlfetcher = HtmlFetcher(self.config)
@@ -128,6 +126,9 @@ class Crawler(object):
         self.article.raw_html = raw_html
         self.article.doc = doc
         self.article.raw_doc = deepcopy(doc)
+
+        # image extrator
+        self.image_extractor = self.get_image_extractor()
 
         # open graph
         self.article.opengraph = self.opengraph_extractor.extract()
@@ -190,7 +191,7 @@ class Crawler(object):
             self.article.cleaned_text = self.formatter.get_formatted_text()
 
         # cleanup tmp file
-        self.relase_resources()
+        self.release_resources()
 
         # return the article
         return self.article
@@ -262,7 +263,7 @@ class Crawler(object):
     def get_extractor(self):
         return StandardContentExtractor(self.config, self.article)
 
-    def relase_resources(self):
+    def release_resources(self):
         path = os.path.join(self.config.local_storage_path, '%s_*' % self.article.link_hash)
         for fname in glob.glob(path):
             try:

@@ -74,17 +74,17 @@ class ImageExtractor(BaseExtractor):
         )
 
     def get_best_image(self, doc, topNode, articleTitle):
-        image = self.check_known_elements()
-        if image:
-            return image
+        # image = self.check_known_elements()
+        # if image:
+        #     return image
 
         image = self.check_large_images(topNode, 0, 0, articleTitle)
         if image:
             return image
 
-        image = self.check_meta_tag()
-        if image:
-            return image
+        # image = self.check_meta_tag()
+        # if image:
+        #     return image
         return Image()
 
     def check_meta_tag(self):

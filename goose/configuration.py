@@ -41,7 +41,7 @@ class Configuration(object):
         # What's the minimum bytes for an image we'd accept is,
         # alot of times we want to filter out the author's little images
         # in the beginning of the article
-        self.images_min_bytes = 5000
+        self.images_min_bytes = 4000
 
         # set this guy to false if you don't care about getting images,
         # otherwise you can either use the default
